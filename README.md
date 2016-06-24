@@ -4,4 +4,4 @@ People wishing to submit SIPs, first should propose their idea or document in th
 ## Index
 | Number                | Title                      | Owner           | Type    | Status |
 |-----------------------|----------------------------|-----------------|---------|--------|
-| [1](sip-0001.md)      | SIP Purpose and Guidelines | Shawn Wilkinson | Process | Draft  |
+| [1](sip-0001.md)      | SIP Purpose and Guidelines | Shawn Wilkinson | Process | Active |
