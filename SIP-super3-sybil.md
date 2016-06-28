@@ -23,7 +23,7 @@ A successful Sybil attack can be modeled with a [hypergeometric distribution](ht
 - Number of Successes in Sample (s) - Number of shards that must disappear for the file to fail.
 
 
-For example, with 10,000 farmers on the network and 1,000 attackers, if we Reed-Solomon erasure code 20-of-40, the probability of a successful attack on a file is 1.67e-11.
+For example, with 10,000 farmers on the network and 1,000 attackers, if we use Reed-Solomon erasure code 20-of-40, the probability of a successful attack on a file is 1.67e-11.
 
 ## Specification
 1. A farmer deposits at least 0.0001 SJCX to her public node-id address once a month. The farmer may optionally deposit more SJCX for increased visibility. The farmer will also have to pay a Bitcoin transaction fee as Counterparty transactions rely on Bitcoin transactions.
