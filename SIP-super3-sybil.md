@@ -47,7 +47,7 @@ A more determined attacker might build up these identities over time and then us
 
 ## Citations
 ```
-[1]https://aws.amazon.com/s3/faqs/
-[2]http://www.statista.com/statistics/222309/total-number-of-objects-stored-in-amazons-s3/
-[3]https://aws.amazon.com/ec2/pricing/
+[1] https://aws.amazon.com/s3/faqs/
+[2] http://www.statista.com/statistics/222309/total-number-of-objects-stored-in-amazons-s3/
+[3] https://aws.amazon.com/ec2/pricing/
 ```
