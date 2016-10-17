@@ -3,6 +3,7 @@ SIP: hdnodeid
 Title: Hierarchically Deterministic Node IDs
 Author: Gordon Hall <gordon@storj.io>
         Braydon Fuller <braydon@storj.io>
+        Shawn Wilkinson <shawn@storj.io>
 Status: Draft
 Type: Standard
 Created: 2016-10-17
@@ -30,7 +31,7 @@ Key derivation must match the specification of Bitcoin Hierarchical Deterministi
 We define the following levels in BIP32 path:
 
 ```
-m / purpose' / node_index
+m / purpose' / group_index' / node_index
 ```
 
 Apostrophe in the path indicates that BIP32 hardened derivation is used.
@@ -40,12 +41,18 @@ Apostrophe in the path indicates that BIP32 hardened derivation is used.
 Purpose is a constant set to 3000, so as to not collide with any bitcoin related proposals which recommends to use the BIP number.
 
 ```
-m / 3000' / *
+m / 3000' / group_index' / node_index
 ```
+
+#### Group Index
+
+The `group_index` for most purposes will be 0. However is reserved for a future use to be able to increment in the case that the contracts should be updated with a new key.
 
 #### Node Index
 
-The `node_index` can be a number from 0 through 2 ^ 31 - 1, so that it's using a non-hardened paths and it's always possible to derive the public key for a node using the `m / 3000'` derived extended public key. This gives a total of 2.147 billion possible nodes to run in a cluster.
+The `node_index` can be a number from 0 through 2 ^ 31 - 1, so that it's using a non-hardened paths and it's always possible to derive the public key for a node using the `m / 3000'` derived extended public key. This gives a total of 2.147 billion possible nodes to run in a group cluster.
+
+**Security Note**: As noted in BIP32, a comprimised private key at the `node_index` level in combination with the extendend public key at the `group_index` level will comprimise all decending private keys derived from the `group_index` level, this is the rationale for a hardenend path for the `group_index`.
 
 ### Message Format and Authentication
 
@@ -64,7 +71,7 @@ This specification extends the message format for a contact to include `hdNodeKe
 }
 ```
 
-The `hdNodeKey` is the extended public key derived from `m / 3000'` and uses the same serialization format described in BIP32, and as recommended in BIP43, a base58 encoded string. *(Question: Should we use base64 or hex encoding instead?)*
+The `hdNodeKey` is the extended public key derived from `m / 3000' / group_index'` and uses the same serialization format described in BIP32, and as recommended in BIP43, a base58 encoded string. *(Question: Should we use base64 or hex encoding instead?)*
 
 If the `hdNodeKey` is present, nodes must validate that a message is signed by the key derived from the `hdNodeKey` at the index `hdNodeIndex`, and that hash160 *(sha256 and ripemd160)* of that derived public key matches the `nodeID`.
 
@@ -87,4 +94,5 @@ https://github.com/braydonf/storj-lib/tree/hdkeys
 References
 -------------
 - https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
+- https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki#implications
 - https://github.com/bitcoin/bips/blob/master/bip-0043.mediawiki
