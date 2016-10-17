@@ -1,0 +1,90 @@
+```
+SIP: hdnodeid
+Title: Hierarchically Deterministic Node IDs
+Author: Gordon Hall <gordon@storj.io>
+        Braydon Fuller <braydon@storj.io>
+Status: Draft
+Type: Standard
+Created: 2016-10-17
+```
+
+Abstract
+--------
+
+This document describes hierarchically deterministic node IDs for the purposes of running a cluster of renter nodes that can all share the same contracts with farmers.
+
+The specification extends bitcoin ECDSA derivation standard BIP32 and BIP43, and extends both contacts and contracts with new fields and message and contract verification.
+
+Motivation
+----------
+
+To more evenly distribute shards in the network when running a cluster of renter nodes. By using a hierarchically determined key, contracts can reference the `renter_hd_key` such that a renter node can use a derived key `renter_hd_index` and act an behalf of the `renter_hd_key`. The `nodeID` will use the derived key for more evenly distributed Kademlia routing, and the contract will use a hash of the `renter_hd_key` as the `renter_id`.
+
+Specification
+-------------
+
+### Key Derivation
+
+Key derivation must match the specification of Bitcoin Hierarchical Deterministic Wallets (BIP32) with the purpose field described in Bitcoin Purpose Field for Deterministic Wallets (BIP43).
+
+We define the following levels in BIP32 path:
+
+```
+m / purpose' / node_index
+```
+
+Apostrophe in the path indicates that BIP32 hardened derivation is used.
+
+#### Purpose
+
+Purpose is a constant set to 3000, so as to not collide with any bitcoin related proposals which recommends to use the BIP number.
+
+```
+m / 3000' / *
+```
+
+#### Node Index
+
+The `node_index` can be a number from 0 through 2 ^ 31 - 1, so that it's using a non-hardened paths and it's always possible to derive the public key for a node using the `m / 3000'` derived extended public key. This gives a total of 2.147 billion possible nodes to run in a cluster.
+
+### Message Format and Authentication
+
+This specification extends the message format for a contact to include `hdNodeKey` and `hdNodeIndex`.
+
+```json
+{
+  "contact": {
+    "address": "10.0.0.2",
+    "port": 1337,
+    "nodeID": "89cc3ddb4209c6e7e301c10c0257adf4fd85f253",
+    "hdNodeKey": "xpub...",
+    "hdNodeIndex": 12,
+    "protocol": "0.7.2"
+  }
+}
+```
+
+The `hdNodeKey` is the extended public key derived from `m / 3000'` and uses the same serialization format described in BIP32, and as recommended in BIP43, a base58 encoded string. *(Question: Should we use base64 or hex encoding instead?)*
+
+If the `hdNodeKey` is present, nodes must validate that a message is signed by the key derived from the `hdNodeKey` at the index `hdNodeIndex`, and that hash160 *(sha256 and ripemd160)* of that derived public key matches the `nodeID`.
+
+### Contracts
+
+Two new fields are added to a contract `renter_hd_key` and `renter_hd_index`. The serialization will be identical to the serialization for the contacts. The `renter_id` in this case will be the sha256 and then ripemd hash of the serialized public key of `renter_hd_key`.
+
+A contract with a `renter_hd_key` can be authenticated for any contact that has a matching `hdNodeKey` and with any `hdNodeIndex`. The contract itself must be signed by the corresponding `renter_hd_key` and `renter_hd_index`.
+
+Backwards Compatibility
+----------------------
+
+Because there are new fields being added to both contact and contract, new renters will require that farmers have also been upgraded to use the functionality.
+
+Reference Implementation
+-----------------------
+
+https://github.com/braydonf/storj-lib/tree/hdkeys
+
+References
+-------------
+- https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
+- https://github.com/bitcoin/bips/blob/master/bip-0043.mediawiki
