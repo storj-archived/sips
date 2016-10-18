@@ -79,7 +79,7 @@ If the `hdKey` is present, nodes must validate that a message is signed by the k
 
 Two new fields are added to a contract `renter_hd_key` and `renter_hd_index`. The serialization will be identical to the serialization for the contacts. The `renter_id` in this case will be the sha256 and then ripemd hash of the serialized public key of `renter_hd_key`.
 
-A contract with a `renter_hd_key` can be authenticated for any contact that has a matching `hdKey` and with any `hdIndex`. The contract itself must be signed by the corresponding `renter_hd_key` and `renter_hd_index`.
+A contract with a `renter_hd_key` can be authenticated for any contact that has a matching `hdKey` and with any `hdIndex`. The contract itself must be signed by the corresponding `renter_hd_key` and `renter_hd_index`. The contract 'renter_id` is the public key hash of the derived key, and this renter will receive the offer for the contract from the farmer, while any of the sibling renters should be able to act on behalf of the contract.
 
 Backwards Compatibility
 ----------------------
