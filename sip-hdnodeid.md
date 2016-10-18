@@ -56,7 +56,7 @@ The `node_index` can be a number from 0 through 2 ^ 31 - 1, so that it's using a
 
 ### Message Format and Authentication
 
-This specification extends the message format for a contact to include `hdNodeKey` and `hdNodeIndex`.
+This specification extends the message format for a contact to include `hdKey` and `hdIndex`.
 
 ```json
 {
@@ -64,22 +64,22 @@ This specification extends the message format for a contact to include `hdNodeKe
     "address": "10.0.0.2",
     "port": 1337,
     "nodeID": "89cc3ddb4209c6e7e301c10c0257adf4fd85f253",
-    "hdNodeKey": "xpub...",
-    "hdNodeIndex": 12,
+    "hdKey": "xpub...",
+    "hdIndex": 12,
     "protocol": "0.7.2"
   }
 }
 ```
 
-The `hdNodeKey` is the extended public key derived from `m / 3000' / group_index'` and uses the same serialization format described in BIP32, and as recommended in BIP43, a base58 encoded string. *(Question: Should we use base64 or hex encoding instead?)*
+The `hdKey` is the extended public key derived from `m / 3000' / group_index'` and uses the same serialization format described in BIP32, and as recommended in BIP43, a base58 encoded string.
 
-If the `hdNodeKey` is present, nodes must validate that a message is signed by the key derived from the `hdNodeKey` at the index `hdNodeIndex`, and that hash160 *(sha256 and ripemd160)* of that derived public key matches the `nodeID`.
+If the `hdKey` is present, nodes must validate that a message is signed by the key derived from the `hdKey` at the index `hdIndex`, and that hash160 *(sha256 and ripemd160)* of that derived public key matches the `nodeID`.
 
 ### Contracts
 
 Two new fields are added to a contract `renter_hd_key` and `renter_hd_index`. The serialization will be identical to the serialization for the contacts. The `renter_id` in this case will be the sha256 and then ripemd hash of the serialized public key of `renter_hd_key`.
 
-A contract with a `renter_hd_key` can be authenticated for any contact that has a matching `hdNodeKey` and with any `hdNodeIndex`. The contract itself must be signed by the corresponding `renter_hd_key` and `renter_hd_index`.
+A contract with a `renter_hd_key` can be authenticated for any contact that has a matching `hdKey` and with any `hdIndex`. The contract itself must be signed by the corresponding `renter_hd_key` and `renter_hd_index`.
 
 Backwards Compatibility
 ----------------------
