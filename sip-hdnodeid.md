@@ -52,7 +52,7 @@ The `group_index` for most purposes will be 0. However is reserved for a future 
 
 The `node_index` can be a number from 0 through 2 ^ 31 - 1, so that it's using a non-hardened paths and it's always possible to derive the public key for a node using the `m / 3000'` derived extended public key. This gives a total of 2.147 billion possible nodes to run in a group cluster.
 
-**Security Note**: As noted in BIP32, a comprimised private key at the `node_index` level in combination with the extendend public key at the `group_index` level will comprimise all decending private keys derived from the `group_index` level, this is the rationale for a hardenend path for the `group_index`.
+**Security Note**: As noted in BIP32, a compromised private key at the `node_index` level in combination with the extended public key at the `group_index` level will compromise all descending private keys derived from the `group_index` level, this is the rationale for a hardened path for the `group_index`.
 
 ### Message Format and Authentication
 
