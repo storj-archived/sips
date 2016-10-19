@@ -19,7 +19,7 @@ The specification extends bitcoin ECDSA derivation standard BIP32 and BIP43, and
 Motivation
 ----------
 
-To more evenly distribute shards in the network when running a cluster of renter nodes. By using a hierarchically determined key, contracts can reference the `renter_hd_key` such that a renter node can use a derived key `renter_hd_index` and act an behalf of the `renter_hd_key`. The `nodeID` will use the derived key for more evenly distributed Kademlia routing, and the contract will use a hash of the `renter_hd_key` as the `renter_id`.
+To more evenly distribute shards in the network when running a cluster of renter nodes. By using a hierarchically determined key, contracts can reference the `renter_hd_key` such that a renter node can use a derived key `renter_hd_index` and act an behalf of the `renter_hd_key`. The `nodeID` will use the derived key for more evenly distributed Kademlia routing.
 
 Specification
 -------------
@@ -50,7 +50,7 @@ The `group_index` for most purposes will be 0. However is reserved for a future 
 
 #### Node Index
 
-The `node_index` can be a number from 0 through 2 ^ 31 - 1, so that it's using a non-hardened paths and it's always possible to derive the public key for a node using the `m / 3000'` derived extended public key. This gives a total of 2.147 billion possible nodes to run in a group cluster.
+The `node_index` can be a number from 0 through 2 ^ 31 - 1, so that it's using a non-hardened paths and it's always possible to derive the public key for a node using the `m / 3000' / group_index'` derived extended public key. This gives a total of 2.147 billion possible nodes to run in a group cluster.
 
 ---
 
@@ -77,7 +77,7 @@ This specification extends the message format for a contact to include `hdKey` a
 
 The `hdKey` is the extended public key derived from `m / 3000' / group_index'` and uses the same serialization format described in BIP32, and as recommended in BIP43, a base58 encoded string.
 
-If the `hdKey` is present, nodes must validate that a message is signed by the key derived from the `hdKey` at the index `hdIndex`, and that hash160 *(sha256 and ripemd160)* of that derived public key matches the `nodeID`.
+If the `hdKey` is present, nodes must validate that a message is signed by the key derived from the `hdKey` at the index `hdIndex`, and that the hash160 *(sha256 and ripemd160)* of that derived public key matches the `nodeID`.
 
 ### Contracts
 
