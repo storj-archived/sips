@@ -9,7 +9,7 @@ Created: 2016-10-21
 Abstract
 --------
 
-Core-cli feature which will generate encryption keys based on a master starting seed, allowing users to easily transfer keys to another device, backup their present and future keys on paper, and share encryption keys either on a per-bucket or per-file basis.
+Core-cli feature which will generate encryption keys based on a master starting seed, allowing users to easily transfer keys to another device, backup their present and future keys offline, and share encryption keys either on a per-bucket or per-file basis.
 
 Motivation
 ----------
