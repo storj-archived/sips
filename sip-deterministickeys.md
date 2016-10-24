@@ -25,7 +25,7 @@ Finally, users might want to grant other users access to all the files in a buck
 Specification
 -------------
 
-Generate a twelve word mnemonic according to BIP 39 which gives 132 bits of entropy. This mnemonic will be encrypted into the keyring using the keyring's standard method of encryption. The bucket key is generated using pbkdf2 using the mnemonic as the password, the bucket id as the salt, and other settings already used by DataCipherKeyIv. The file key is generated similarly using the bucketKey as the password and fileId as the salt. This file key then becomes the secret password to a new DataCipherKeyIv.
+Generate a long password in the form of a twelve word mnemonic taken from 2048 possible words. This acts as a long, secure password. This mnemonic will be encrypted into the keyring using the keyring's standard method of encryption. The bucket key is generated using pbkdf2 using the mnemonic as the password, the bucket id as the salt, and other settings already used by DataCipherKeyIv. The file key is generated similarly using the bucketKey as the password and fileId as the salt. This file key then becomes the secret password to a new DataCipherKeyIv.
 
 ```javascript
 DataCipherKeyIv.getHDBucketKey = function(mnemonic, bucketId){
