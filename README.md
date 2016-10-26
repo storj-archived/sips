@@ -14,6 +14,7 @@ Index
 | Number                   | Title                                     | Owner           | Type     | Status |
 |--------------------------|-------------------------------------------|-----------------|----------|--------|
 | [0001](sip-0001.md)      | SIP Purpose and Guidelines                | Shawn Wilkinson | Process  | Active |
-| [0002](sip-0002.md) | Bounding Sybil Attacks with Identity Cost | Shawn Wilkinson | Standard | Draft  |
+| [0002](sip-0002.md)      | Bounding Sybil Attacks with Identity Cost | Shawn Wilkinson | Standard | Draft  |
 | [0003](sip-0003.md)      | Remote Notifications and Triggers         | Gordon Hall     | Standard | Active |
+| [0004](sip-0004.md)      | Contract Transfers and Renewals           | Gordon Hall     | Standard | Draft  |
 | [0032](sip-0032.md)      | Hierarchically Deterministic Node IDs     | Braydon Fuller  | Standard | Draft  |
