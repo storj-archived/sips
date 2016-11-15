@@ -46,22 +46,16 @@ Users can no longer upload files with the same name to the same bucket, nor crea
 
 ```javascript
 // creating the new file name
-var newFileName = '(' + new Date().toISOString() + ') ' + originalFileName;
+var date = (new Date().toISOString()).replace(/:/g, ';');
+var newFilename = '(' + date + ')-' + originalFilename;
 ```
 
 ```javascript
 // stripping the date from the file beginning
 
 var _stripISOString = function(fileName){
-  var array = fileName.split(' ');
-  var potentialDate = array[0];
-  var re = /\(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z\)/g;
-  var isValid = potentialDate.match(re);
-  if (isValid){
-    return array.splice(1).join(' ');
-  } else {
-    return fileName
-  }
+  var re = /^\(\d{4}-\d{2}-\d{2}T\d{2};\d{2};\d{2}.\d{3}Z\)-/g;
+  return fileName.replace(re, '');
 };
 ```
 
