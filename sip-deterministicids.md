@@ -1,5 +1,5 @@
 ```
-Title: Deterministic Bucket and File Ids
+Title: Deterministic Bucket and File IDs
 Author: Chris Pollard <chris@storj.io>
 Status: Draft
 Type: Standard
