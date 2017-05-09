@@ -58,12 +58,12 @@ A bucket name is encrypted using AES-256-GCM using these steps:
 
 Files are encoded using Reed-Solomon *(based on Vandermonde matrices)* and can use any number of data to parity shard ratios, and is encoded after the encryption step. This provides the ability to reconstruct lost shards from a service that does not have access to the *Encryption Key*.
 
-A file is broken up into several shards in multiples of 8MiB. There are 256 total possible data shards. The shard size for a file can be determined by selecting 4 hops back from the closest value to `8MiB * 2 ^ n`, example:
+A file is broken up into several shards in multiples of 2MiB. There are 256 total possible data shards. The shard size for a file can be determined by selecting 4 hops back from the closest value to `2MiB * 2 ^ n`, example:
 
 ```
-8  16  32  64  128  256  512  1024  2048  4096  8192  16384
-                              ^                       ^
-                              shard size              file size
+2  4  8  16  32  64  128  256  512  1024  2048  4096  8192  16384
+                                    ^                       ^
+                                    shard size              file size
 ```
 
 All of the parity shards and data shards, except the last data shard, must be the same size. To account for the fact that the last shard will most always not equal the size of the other shards, the parity shards are generated with the assumption that the remaining extra space for the last shard are all zeros. This data can then be truncated off the file during recovery of the last shard. The size of each shard is necessary to reconstruct the data; this can be accomplished by marking which shards are parity and which are data.
