@@ -39,7 +39,18 @@ The exact threshold used to divide the two groups can use a constant `BENCHMARK_
 
 #### Response Time
 
+The response time for a contact is caculated as an estimated moving average. Previously unknown contacts start at 10 seconds and build improved times with each response, this identify cost can be further expanded by ideas discussed in (SIP2)[https://github.com/Storj/sips/blob/master/sip-0002.md].
+
+The estimated moving average is calculated by:
+
 ```
+// The number of requests used in calculating the moving average
+const p = 1000;
+const lastResponseTime = contact.responseTime || 10000;
+
+// Calculate the exponential moving average
+const k = 2 / (p + 1);
+const newResponseTime = responseTime * k + lastResponseTime * (1 - k);
 ```
 
 #### Reputation
