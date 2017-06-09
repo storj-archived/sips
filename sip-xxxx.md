@@ -87,6 +87,18 @@ At the moment, there is no specific distinction between mirrors (i.e. there is n
 
 While `responseTime` is a pretty decent reputation metric, as discussed above, this might not be the case in the future, especially as the details of what defines the reputation of a node evolve. A useful optimization in the future would be ordering mirrors by reputation so that upon downloading a shard, the client is downloading it from the most reputable node available.
 
+#### Bandwidth Exchange Reports
+
+One useful metric to factor into a node's reputation would be shard transfer speed, or bandwidth. Because of the decentralized nature of the network, this information requires some extra work to attain.
+
+A class called `ExchangeReport` currently exists in the core library, and would help maintain information about a farmer's bandwidth [3]. An exchange report for the purposes of this optimization would contain a client ID, a farmer ID, a reporter ID (to distinguish whether it was submitted by the farmer or the client), a shard hash, and the transfer time of the shard associated with the exchange report.
+
+The trustworthiness of a farmer or client can be determined by grouping exchange reports associated with that farmer or client into pairs (each exchange report from a client will have a corresponding exchange report from a farmer). By calculating the number of exchange report pairs where a particular reporter (farmer or client) disagrees with its counterpart, and dividing this number by the total number of exchange reprot pairs, a trustworthiness percentage can be found for a particular farmer or client.
+
+Once farmers and clients have a trustworthiness metric associated with them based on exchange reports, the bandwidth of a specific farmer can be determined based on its exchange reports. Transfer time and shard size can be combined to produce a bandwidth metric for each exchange report pair for a farmer. In cases where the farmer and client are in agreement about transfer time, that transfer time will be used. Otherwise, the transfer time reported by the more trustworthy of the two will be used.
+
+This idea still needs a lot of development, especially since the bandwidth of a farmer should not be absolute. Bandwidth largely depends on physical distance between a client and a farmer. In addition, the method of calculating bandwidth described above is computationally heavy, so should not be done very frequently. With more research, these problems can likely be overcome.
+
 Reference Implementation
 ------------------------
 https://github.com/Storj/bridge/pull/464
@@ -96,4 +108,5 @@ Citations
 --------------
 1. https://www.maxmind.com/en/geoip2-databases
 2. https://docs.mongodb.com/manual/applications/geospatial-indexes/
-3. https://medium.com/@storjproject/how-to-ddos-yourself-dbcdc3625bd0
+3. https://storj.github.io/core/ExchangeReport.html
+4. https://medium.com/@storjproject/how-to-ddos-yourself-dbcdc3625bd0
