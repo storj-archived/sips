@@ -39,7 +39,7 @@ The exact threshold used to divide the two groups can use a constant `BENCHMARK_
 
 #### Response Time
 
-The response time for a contact is calculated as an estimated moving average. Previously unknown contacts start at 10 seconds and build improved times with each response, this identify cost can be further expanded by ideas discussed in [SIP2](https://github.com/Storj/sips/blob/master/sip-0002.md).
+The response time for a contact is calculated as an estimated moving average. Previously unknown contacts start at 10 seconds and build improved times with each response, this identify cost can be further expanded by ideas discussed in [SIP2](https://github.com/Storj/sips/blob/master/sip-0002.md) [1].
 
 The estimated moving average is calculated by:
 
@@ -88,7 +88,7 @@ There can be other enhancements to node selection to give bias to some nodes ove
 
 One flaw with calculating reputation based on response time or similar metrics will give bias to nodes geographically closer to Storj bridge services, especially prevalent when clients are also further away from the bridge.
 
-There are services that allow for converting IP addresses to approximate location (latitude/longitude) [1]. In addition, MongoDB has support for geospatial indexes and queries [2]. Using these services, the database queries described above can be refined to prioritize farmers that are geographically closer to the user uploading a file.
+There are services that allow for converting IP addresses to approximate location (latitude/longitude) [2]. In addition, MongoDB has support for geospatial indexes and queries [3]. Using these services, the database queries described above can be refined to prioritize farmers that are geographically closer to the user uploading a file.
 
 This benefits users, as upload and download speed will be better for geographically closer farmers. It also benefits farmers, since they will be competing on a more local scale for reputation. In addition, the existence of regions that are abundant in users but scarce in farmers will provide incentives for farmers to pop up in those regions.
 
@@ -100,7 +100,7 @@ While `responseTime` is a pretty decent reputation metric, as discussed above, t
 
 #### Bandwidth
 
-One useful metric to factor into a node selection is shard transfer speed, or bandwidth. Because of the decentralized nature of the network, this information requires some extra work to attain. Reports sent from both the client and the farmer with times of the transfers can be used to establish this inforamation, a.k.a Exchange Reports.
+One useful metric to factor into a node selection is shard transfer speed, or bandwidth. Because of the decentralized nature of the network, this information requires some extra work to attain. Reports sent from both the client and the farmer with times of the transfers can be used to establish this information, a.k.a. Exchange Reports.
 
 An exchange report for the purposes of this optimization would contain a client ID, a farmer ID, a reporter ID (to distinguish whether it was submitted by the farmer or the client), a shard hash, and the transfer time of the shard associated with the exchange report.
 
@@ -120,5 +120,4 @@ Citations
 1. https://github.com/Storj/sips/blob/master/sip-0002.md
 2. https://www.maxmind.com/en/geoip2-databases
 3. https://docs.mongodb.com/manual/applications/geospatial-indexes/
-4. https://storj.github.io/core/ExchangeReport.html
-5. https://medium.com/@storjproject/how-to-ddos-yourself-dbcdc3625bd0
+4. https://medium.com/@storjproject/how-to-ddos-yourself-dbcdc3625bd0
