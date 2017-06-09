@@ -81,6 +81,11 @@ There are services that allow for converting IP addresses to approximate locatio
 
 This benefits users, as upload and download speed will be better for geographically closer farmers. It also benefits farmers, since they will be competing on a more local scale for reputation. In addition, the existence of regions that are abundant in users but scarce in farmers will provide incentives for farmers to pop up in those regions.
 
+#### Mirror Prioritization
+
+At the moment, there is no specific distinction between mirrors (i.e. there is no distinction between a "main shard" and a "mirrored shard"). Contracts are awarded in the order that they arrive, meaning the ranking of different mirrors is based on `responseTime`. In other words, the fastest responding node is awarded the first mirror, and that will be the first mirror the client attempts to use to download the corresponding shard.
+
+While `responseTime` is a pretty decent reputation metric, as discussed above, this might not be the case in the future, especially as the details of what defines the reputation of a node evolve. A useful optimization in the future would be ordering mirrors by reputation so that upon downloading a shard, the client is downloading it from the most reputable node available.
 
 Reference Implementation
 ------------------------
@@ -89,6 +94,6 @@ https://github.com/Storj/bridge/pull/464
 
 Citations
 --------------
-- https://www.maxmind.com/en/geoip2-databases
-- https://docs.mongodb.com/manual/applications/geospatial-indexes/
-- https://medium.com/@storjproject/how-to-ddos-yourself-dbcdc3625bd0
+1. https://www.maxmind.com/en/geoip2-databases
+2. https://docs.mongodb.com/manual/applications/geospatial-indexes/
+3. https://medium.com/@storjproject/how-to-ddos-yourself-dbcdc3625bd0
