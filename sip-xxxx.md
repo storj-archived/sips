@@ -39,7 +39,7 @@ The exact threshold used to divide the two groups can use a constant `BENCHMARK_
 
 #### Response Time
 
-The response time for a contact is calculated as an estimated moving average. Previously unknown contacts start at 10 seconds and build improved times with each response, this identify cost can be further expanded by ideas discussed in (SIP2)[https://github.com/Storj/sips/blob/master/sip-0002.md].
+The response time for a contact is calculated as an estimated moving average. Previously unknown contacts start at 10 seconds and build improved times with each response, this identify cost can be further expanded by ideas discussed in [SIP2](https://github.com/Storj/sips/blob/master/sip-0002.md).
 
 The estimated moving average is calculated by:
 
@@ -117,7 +117,8 @@ https://github.com/Storj/bridge/pull/464
 
 Citations
 --------------
-1. https://www.maxmind.com/en/geoip2-databases
-2. https://docs.mongodb.com/manual/applications/geospatial-indexes/
-3. https://storj.github.io/core/ExchangeReport.html
-4. https://medium.com/@storjproject/how-to-ddos-yourself-dbcdc3625bd0
+1. https://github.com/Storj/sips/blob/master/sip-0002.md
+2. https://www.maxmind.com/en/geoip2-databases
+3. https://docs.mongodb.com/manual/applications/geospatial-indexes/
+4. https://storj.github.io/core/ExchangeReport.html
+5. https://medium.com/@storjproject/how-to-ddos-yourself-dbcdc3625bd0
