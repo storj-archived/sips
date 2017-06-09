@@ -35,7 +35,7 @@ There is one metric that can be used to divide an active vs. a benchmarking node
 - A node's estimated moving average response time (currently available)
 - A reputation field based on several metrics
 
-The exact threshold used to divide the two groups can use a constant `BENCHMARK_THRESHOLD' that is updated periodically to represent the 25th percentile of all of the known contacts based on the metrics above. This way, the best 75% of nodes are considered active and the remainder are considered benchmarking. This is to keep the two pools of nodes proportional to the number of contract publications to the them, as described earlier.
+The exact threshold used to divide the two groups can use a constant `BENCHMARK_THRESHOLD` that is updated periodically to represent the 25th percentile of all of the known contacts based on the metrics above. This way, the best 75% of nodes are considered active and the remainder are considered benchmarking. This is to keep the two pools of nodes proportional to the number of contract publications to the them, as described earlier.
 
 #### Response Time
 
@@ -98,11 +98,11 @@ At the moment, there is no specific distinction between mirrors (i.e. there is n
 
 While `responseTime` is a pretty decent reputation metric, as discussed above, this might not be the case in the future, especially as the details of what defines the reputation of a node evolve. A useful optimization in the future would be ordering mirrors by reputation so that upon downloading a shard, the client is downloading it from the most reputable node available.
 
-#### Bandwidth Exchange Reports
+#### Bandwidth
 
-One useful metric to factor into a node's reputation would be shard transfer speed, or bandwidth. Because of the decentralized nature of the network, this information requires some extra work to attain.
+One useful metric to factor into a node selection is shard transfer speed, or bandwidth. Because of the decentralized nature of the network, this information requires some extra work to attain. Reports sent from both the client and the farmer with times of the transfers can be used to establish this inforamation, a.k.a Exchange Reports.
 
-A class called `ExchangeReport` currently exists in the core library, and would help maintain information about a farmer's bandwidth [3]. An exchange report for the purposes of this optimization would contain a client ID, a farmer ID, a reporter ID (to distinguish whether it was submitted by the farmer or the client), a shard hash, and the transfer time of the shard associated with the exchange report.
+An exchange report for the purposes of this optimization would contain a client ID, a farmer ID, a reporter ID (to distinguish whether it was submitted by the farmer or the client), a shard hash, and the transfer time of the shard associated with the exchange report.
 
 The trustworthiness of a farmer or client can be determined by grouping exchange reports associated with that farmer or client into pairs (each exchange report from a client will have a corresponding exchange report from a farmer). By calculating the number of exchange report pairs where a particular reporter (farmer or client) disagrees with its counterpart, and dividing this number by the total number of exchange report pairs, a trustworthiness percentage can be found for a particular farmer or client.
 
