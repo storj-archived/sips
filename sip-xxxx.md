@@ -2,7 +2,7 @@
 SIP: ?
 Title: Farmer Load Balancing Based on Reputation
 Author: Braydon Fuller <braydon@storj.io>
-Moby von Briesen <moby@storj.io>
+        Moby von Briesen <moby@storj.io>
 Status: Draft
 Type: Standard
 Created: 2017-06-08
@@ -39,7 +39,18 @@ The exact threshold used to divide the two groups can use a constant `BENCHMARK_
 
 #### Response Time
 
+The response time for a contact is calculated as an estimated moving average. Previously unknown contacts start at 10 seconds and build improved times with each response, this identify cost can be further expanded by ideas discussed in [SIP2](https://github.com/Storj/sips/blob/master/sip-0002.md).
+
+The estimated moving average is calculated by:
+
 ```
+// The number of requests used in calculating the moving average
+const p = 1000;
+const lastResponseTime = contact.responseTime || 10000;
+
+// Calculate the exponential moving average
+const k = 2 / (p + 1);
+const newResponseTime = responseTime * k + lastResponseTime * (1 - k);
 ```
 
 #### Reputation
@@ -93,7 +104,7 @@ One useful metric to factor into a node's reputation would be shard transfer spe
 
 A class called `ExchangeReport` currently exists in the core library, and would help maintain information about a farmer's bandwidth [3]. An exchange report for the purposes of this optimization would contain a client ID, a farmer ID, a reporter ID (to distinguish whether it was submitted by the farmer or the client), a shard hash, and the transfer time of the shard associated with the exchange report.
 
-The trustworthiness of a farmer or client can be determined by grouping exchange reports associated with that farmer or client into pairs (each exchange report from a client will have a corresponding exchange report from a farmer). By calculating the number of exchange report pairs where a particular reporter (farmer or client) disagrees with its counterpart, and dividing this number by the total number of exchange reprot pairs, a trustworthiness percentage can be found for a particular farmer or client.
+The trustworthiness of a farmer or client can be determined by grouping exchange reports associated with that farmer or client into pairs (each exchange report from a client will have a corresponding exchange report from a farmer). By calculating the number of exchange report pairs where a particular reporter (farmer or client) disagrees with its counterpart, and dividing this number by the total number of exchange report pairs, a trustworthiness percentage can be found for a particular farmer or client.
 
 Once farmers and clients have a trustworthiness metric associated with them based on exchange reports, the bandwidth of a specific farmer can be determined based on its exchange reports. Transfer time and shard size can be combined to produce a bandwidth metric for each exchange report pair for a farmer. In cases where the farmer and client are in agreement about transfer time, that transfer time will be used. Otherwise, the transfer time reported by the more trustworthy of the two will be used.
 
@@ -106,7 +117,8 @@ https://github.com/Storj/bridge/pull/464
 
 Citations
 --------------
-1. https://www.maxmind.com/en/geoip2-databases
-2. https://docs.mongodb.com/manual/applications/geospatial-indexes/
-3. https://storj.github.io/core/ExchangeReport.html
-4. https://medium.com/@storjproject/how-to-ddos-yourself-dbcdc3625bd0
+1. https://github.com/Storj/sips/blob/master/sip-0002.md
+2. https://www.maxmind.com/en/geoip2-databases
+3. https://docs.mongodb.com/manual/applications/geospatial-indexes/
+4. https://storj.github.io/core/ExchangeReport.html
+5. https://medium.com/@storjproject/how-to-ddos-yourself-dbcdc3625bd0
