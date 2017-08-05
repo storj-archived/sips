@@ -24,9 +24,8 @@ The initial setup of a Storj Bridge will include creating an Ethereum transactio
 ```
 struct Bridge {
     string name;
-    enum type;
     address owner;
-    string id;
+    string extended_key;
     string name_server;
     ...
 }
