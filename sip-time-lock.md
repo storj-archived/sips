@@ -28,7 +28,7 @@ An Ethereum smart contract is used to lock up STORJ tokens that can later be cla
 
 ### Farmer State Tree
 
-A [merkle tree](https://en.wikipedia.org/wiki/Merkle_tree) [5] is generated from a snapshot of shard roots that the farmer has been scheduled to store data within a set duration, for example a week time period. This tree is then shared between a farmer and bridge. The merkle root of those shard hashes is added to an Ethereum smart contract that will time-lock STORJ tokens that will be released by proving storage of random segment within a random shard.
+A [merkle tree](https://en.wikipedia.org/wiki/Merkle_tree) [5] is generated from a snapshot of shard roots that the farmer has been scheduled to store data within a set duration, for example a week time period. This tree is then shared between a farmer and bridge. The merkle root of those shard roots is added to an Ethereum smart contract that will time-lock STORJ tokens that will be released by proving storage of random segment within a random shard.
 
 
 ```
@@ -54,7 +54,7 @@ The Ethereum contract will time-lock STORJ tokens and will release tokens with a
 
 There will be a window after the period to claim the tokens, for example 1 week. To prove storage, a random segment in a random shard will be selected based on the block hash at the end of the claim period. The segment plus a list of hashes in the tree from segment all the way to the farmer root will need to be provided.
 
-If any of the tokens are not consecutively claimed for a threshold number of times, all remaining STORJ tokens are returned to the owner. An event can be monitored when a shard proof is not claimed that can be warning that a shard either needs to be replicated or recovered from erasure encoding.
+If any of the tokens are not consecutively claimed for a threshold number of times, all remaining STORJ tokens are returned to the owner. The lack of claim events can be monitored to know when a shard is at risk and either needs to be replicated or recovered from erasure encoding.
 
 Reference Implementation
 ------------------------
