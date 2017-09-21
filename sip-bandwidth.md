@@ -9,7 +9,7 @@ Created: 2017-09-13
 
 Abstract
 --------
-This document details a proposal to more accurately account for bandwidth usage by a Bridge and to ensure that shards can be successfully transferred between Client and Farmer.
+This document details a proposal to more accurately account for bandwidth usage by a Bridge and to ensure that shards can be successfully transferred between Client and Farmer by building reputation metric based on successful transfers.
 
 Motivation
 ----------
@@ -30,7 +30,7 @@ There are three perspectives for each shard transfer; the Client, Bridge and Far
 
 A Client report of a FAILURE or otherwise UNKNOWN will be handled with special consideration for the purpose to encourage it's only used when there is actual FAILURE.
 - There will be a limited percentage of unconfirmed FAILURE reports to total reports that can be made — there should only be a small part of the network that isn't cooperating.
-- A SUCCESS report will positively effect the reputation of the corresponding Farmer, and likewise a FAILURE report will have a negative effect. Thus accurate reporting is encouraged to improve quality at the interest of the Client. These metrics can be used in combination with [SIP6](sip-0006.md) for selecting which Farmers to upload data to further encourge successful shard transfers.
+- A SUCCESS report will positively effect the reputation of the corresponding Farmer, and likewise a FAILURE report will have a negative effect. The amount of reputation points can be based on the number of bytes of the transfer. Thus accurate reporting is encouraged to improve quality at the interest of the Client. These metrics can be used in combination with [SIP6](sip-0006.md) for selecting which Farmers to upload data to further encourge successful shard transfers.
 - If unconfirmed FAILURE reports, or lack of reports, exceed a tolerable expected threshold of unconfirmed FAILURE per Client reporter, the Client account is flagged as having unexpected rates of FAILURE. The behavior of such a flag can be configurable. It could be handled so that any repeated unconfirmed FAILURE reports or UNKNOWN would be considered SUCCESS reports as to prevent abuse. For example in the scenario where a Client isn't reporting SUCCESS or FAILURE, it would be assumed to always have SUCCESS status. By reporting not only would it improve the quality, but it would also more accurately track bandwidth usage by accounting for failures.
 
 ### Exchange Report
