@@ -21,4 +21,5 @@ Index
 | [0006](sip-0006.md)      | Farmer Load Balancing Based on Reputation | Moby von Briesen | Standard | Draft |
 | [0007](sip-0007.md)      | Storj Bridge Directory with an Ethereum Contract | Braydon Fuller  | Standard | Draft |
 | [0008](sip-0008.md)      | Farmer Time-locked Storage Payouts | Braydon Fuller  | Standard | Draft |
+| [0009](sip-0009.md)      | Bandwidth Reputation and Accounting | Braydon Fuller  | Standard | Draft |
 | [0032](sip-0032.md)      | Hierarchically Deterministic Node IDs     | Braydon Fuller  | Standard | Active |
