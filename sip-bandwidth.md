@@ -1,6 +1,6 @@
 ```
 SIP: ?
-Title: Bandwidth Quality Assurance
+Title: Bandwidth Reputation and Accounting
 Author: Braydon Fuller <braydon@storj.io>
 Status: Draft
 Type: Standard
@@ -33,13 +33,54 @@ A Client report of a FAILURE or otherwise UNKNOWN will be handled with special c
 - A SUCCESS report will positively effect the reputation of the corresponding Farmer, and likewise a FAILURE report will have a negative effect. The amount of reputation points can be based on the number of bytes of the transfer. Thus accurate reporting is encouraged to improve quality at the interest of the Client. These metrics can be used in combination with [SIP6](sip-0006.md) for selecting which Farmers to upload data to further encourge successful shard transfers.
 - If unconfirmed FAILURE reports, or lack of reports, exceed a tolerable expected threshold of unconfirmed FAILURE per Client reporter, the Client account is flagged as having unexpected rates of FAILURE. The behavior of such a flag can be configurable. It could be handled so that any repeated unconfirmed FAILURE reports or UNKNOWN would be considered SUCCESS reports as to prevent abuse. For example in the scenario where a Client isn't reporting SUCCESS or FAILURE, it would be assumed to always have SUCCESS status. By reporting not only would it improve the quality, but it would also more accurately track bandwidth usage by accounting for failures.
 
-### Exchange Report
-
-TODO
-
 ### Storage Event
 
-TODO
+A storage event MUST be created anytime that there is a request to upload or download a shard. The event will include the Client and Farmer pair and the hash of the shard.
+
+```
+{
+  "dataHash": "<shard-hash>",
+  "farmerId": "<farmer-id>",
+  "clientId": "<node-id>",
+  "timestamp": <unix-timestamp-milliseconds>,
+  "downloadBandwidth": <bytes-of-the-shard-for-download>,
+  "storage": <bytes-of-the-shard-for-upload>,
+  "success": <boolean>
+}
+```
+
+The "downloadBandwidth" will be included for all download requests, and "storage" will be included for upload requests. The "status" is a boolean to indicate the success of the transfer. The status can be set based on the specification detailed earlier.
+
+### Exchange Report
+
+Each upload and download of a shard MUST be associated with a *Storage Event* id, this id can then be referenced when sending an exchange report from the Client and Farmer.
+
+```
+{
+  "id": <storage-event-id>,
+  "exchangeResultCode": <1000|1100>,
+  "exchangeResultMessage": <message>,
+  "exchangeStart": <unix-timestamp-milliseconds>,
+  "exchangeEnd": <unix-timestamp-milliseconds>
+}
+```
+
+Result Codes:
+- Success: 1000
+- Failure: 1100
+
+Result Messages:
+- Failed integrity: "FAILED_INTEGRITY"
+- Shard downloaded: "SHARD_DOWNLOADED"
+- Shard uploaded: "SHARD_UPLOADED"
+- Download error: "DOWNLOAD_ERROR"
+- Upload error: "TRANSFER_FAILED"
+
+A report from a Farmer MUST be signed to authenticate it, the signature should follow the same method as defined in [SIP6](https://github.com/Storj/sips/blob/master/sip-0006.md#farmer-contact-discovery). A report from a Client MUST also be authenticated, this can be done with HTTP Basic Authentication.
+
+### Reputation
+
+A periodic script can query *Storage Events* between two points in time and apply those results to a bandwidth reputation metric on a contact. This could be based on a rolling window or estimated moving average as similar to `timeoutRate` and `responseTime` currently on a contact. 
 
 Reference Implementation
 ------------------------
