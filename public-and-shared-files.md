@@ -21,6 +21,7 @@ Specification
 
 ### User Public Key
    - A user Encryption Key, as described in [SIP5](https://github.com/Storj/sips/blob/master/sip-0005.md), will have a new derived key index for the purpose of generating a private and public keypair for sharing and signing files with [ECDSA](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm), these can be referenced as the User Private Key and User Public Key. The User Public Key will be then be associated with the user on the Bridge API.
+   - It should be possible to generate multiple signing keys following a standard derivation policy.
 
 ### Bridge Tokens
    - Bridge API will have token based authentication for resources, such as files, that give authorization to request pointers for those files with caveats (e.g. 20 requests)
@@ -31,12 +32,15 @@ Specification
   - Public files are made distinct from user private files on a Bridge API, e.g. instead of `/buckets/<bucket-id>/files/<file-id>` that's used for encrypted files for a user, it would be `/public/<user-name>/files/<file-id>?token=<20-bytes>`, or with buckets `/public/<user-name>/buckets/<bucket-id>/files/<file-id>?token=<20-bytes>`
   - Public files can have a URL scheme `storj://<bridge-url>/public/<user-name>/files/<file-id>?token=<20-bytes>` for the purposes of sharing
   - The existing `index`, used for key derivation, will continue to be used. However as the file is public it will indicate that a client side Encryption Key is not needed, e.g. a null key derived at the `index`.
+  - The username could be a publickey or potentially use the Ethereum Name System for the user.
+  - Files that are more popular could automatically be replicated to handle the additional load.
 
 ### Shared Files
   - The public key for each user can be used for sharing files with other users by using [Diffie-Hellman key exchange](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange)
   - These files are also made distinct by using a different Bridge URL scheme, e.g. `/shared/<user-name>/files/<file-id>` or `/shared/<user-name>/buckets/<bucket-id>/files/<file-id>`
   - Shared files will be available for both users, and the file meta data will include both public keys for the purpose of generating the private key used of the file. An HMAC will still authenticate the file as described in [SIP5](https://github.com/Storj/sips/blob/master/sip-0005.md).
   - Users can subscribe to events to be notified when new shared files are available
+
 
 Reference Implementation
 ------------------------
